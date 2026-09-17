@@ -268,6 +268,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const sectionMap = {
     "home": "2_76",
+    "overview": "2_108",
     "origin": "2_251",
     "feature": "2_551",
     "craft": "2_860"
@@ -312,7 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  bindClick('[id="2_88"]', () => scrollToSection(sectionMap.origin));
+  bindClick('[id="2_88"]', () => scrollToSection(sectionMap.overview));
 
   bindClick('[id="2_63"], [id="2_498"], [id="2_807"], [id="2_1174"]', () => scrollToSection(sectionMap.origin));
   bindClick('[id="2_64"], [id="2_499"], [id="2_808"], [id="2_1175"]', () => scrollToSection(sectionMap.feature));
