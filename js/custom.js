@@ -33,13 +33,15 @@ document.addEventListener('DOMContentLoaded', function () {
       const rect = el.getBoundingClientRect();
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;
-      el.style.transform = `translateY(-8px) rotateX(${(-y * 8).toFixed(2)}deg) rotateY(${(x * 10).toFixed(2)}deg)`;
-      el.style.transition = 'transform 0.12s ease-out';
+      /* 只做背景视差，不施加任何 transform：
+         3D（rotateX/rotateY）与小数缩放会让容器内文字失去亚像素抗锯齿 → 悬停发糊。 */
+      el.style.backgroundPosition = `${50 + x * 6}% ${50 + y * 8}%`;
+      el.style.transition = 'background-position 0.12s ease-out';
     });
 
     el.addEventListener('pointerleave', () => {
-      el.style.transform = '';
-      el.style.transition = 'transform 0.35s ease';
+      el.style.backgroundPosition = 'center';
+      el.style.transition = 'background-position 0.35s ease';
     });
   });
 
@@ -54,6 +56,9 @@ document.addEventListener('DOMContentLoaded', function () {
       card.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
       card.style.opacity = '1';
       card.style.transform = 'translateY(0)';
+      card.addEventListener('transitionend', function clean(e){
+        if(e.propertyName === 'transform'){ card.style.transform = 'none'; card.removeEventListener('transitionend', clean); }
+      });
     }, 120 * index + 200);
   });
 });

@@ -52,8 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
       position: sticky !important;
       top: 0;
       z-index: 30;
-      backdrop-filter: blur(14px);
-      background: rgba(23, 37, 61, 0.88) !important;
+      background: rgba(23, 37, 61, 0.97) !important;
       border-bottom: 1px solid rgba(255,255,255,0.08);
       box-shadow: 0 16px 26px rgba(15, 24, 38, 0.12);
       transition: background 0.35s ease, box-shadow 0.35s ease;
@@ -75,10 +74,11 @@ document.addEventListener("DOMContentLoaded", function () {
     .Pixso-frame-2_62 .Pixso-paragraph-2_1174,
     .Pixso-frame-2_62 .Pixso-paragraph-2_1175,
     .Pixso-frame-2_62 .Pixso-paragraph-2_1176 {
-      transition: color 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
+      transition: color 0.25s ease;
       cursor: pointer;
       position: relative;
-      opacity: 0.8;
+      opacity: 1 !important;
+      color: rgba(240, 236, 228, 0.88);
     }
 
     .Pixso-frame-2_62 .Pixso-paragraph-2_63:hover,
@@ -94,8 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
     .Pixso-frame-2_62 .Pixso-paragraph-2_1175:hover,
     .Pixso-frame-2_62 .Pixso-paragraph-2_1176:hover {
       color: #f6d79d !important;
-      transform: translateY(-1px);
-      opacity: 1;
     }
 
     .Pixso-frame-2_76 {
@@ -144,7 +142,6 @@ document.addEventListener("DOMContentLoaded", function () {
     .Pixso-frame-2_504:hover,
     .Pixso-frame-2_813:hover,
     .Pixso-frame-2_1180:hover {
-      transform: translateY(-3px) scale(1.01);
       box-shadow: 0 18px 28px rgba(23, 37, 61, 0.12);
       border-color: rgba(190,143,69,0.7);
     }
@@ -192,8 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .Pixso-frame-2_551:hover,
     .Pixso-frame-2_860:hover,
     .Pixso-frame-2_1161:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 34px rgba(23, 37, 61, 0.08);
+      box-shadow: 0 20px 34px rgba(23, 37, 61, 0.14);
     }
 
     .Pixso-vector-2_79,
@@ -206,8 +202,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     @keyframes floatOrb {
-      0% { transform: translate3d(0,0,0) scale(1); }
-      100% { transform: translate3d(18px,-18px,0) scale(1.06); }
+      0% { transform: translate(0,0) scale(1); }
+      100% { transform: translate(18px,-18px) scale(1.06); }
     }
 
     @keyframes pulse {
@@ -224,8 +220,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = "1";
-        entry.target.style.transform = "translateY(0)";
+        const t = entry.target;
+        t.style.opacity = "1";
+        t.style.transform = "translateY(0)";
+        t.addEventListener("transitionend", function clean(e){
+          if(e.propertyName === "transform"){ t.style.transform = "none"; t.removeEventListener("transitionend", clean); }
+        });
       }
     });
   }, { threshold: 0.12 });
@@ -243,22 +243,22 @@ document.addEventListener("DOMContentLoaded", function () {
       const x = (event.clientX - rect.left) / rect.width - 0.5;
       const y = (event.clientY - rect.top) / rect.height - 0.5;
 
+      /* 只对背景位移做视差。绝不再对 hero 施加 scale/rotateX/rotateY：
+         任何 3D 或小数缩放都会让内部文字失去亚像素抗锯齿而发糊。 */
       hero.style.backgroundPosition = `${50 + x * 8}% ${50 + y * 10}%`;
-      hero.style.transform = `scale(1.005) rotateX(${(-y * 3).toFixed(2)}deg) rotateY(${(x * 4).toFixed(2)}deg)`;
     });
 
     hero.addEventListener("pointerleave", () => {
       hero.style.backgroundPosition = "center";
-      hero.style.transform = "scale(1) rotateX(0deg) rotateY(0deg)";
     });
   }
 
   document.querySelectorAll(".Pixso-frame-2_69, .Pixso-frame-2_504, .Pixso-frame-2_813, .Pixso-frame-2_1180").forEach((btn) => {
     btn.addEventListener("click", function () {
       btn.animate([
-        { transform: "translateY(0) scale(1)" },
-        { transform: "translateY(-2px) scale(1.02)" },
-        { transform: "translateY(0) scale(1)" }
+        { transform: "translateY(0)" },
+        { transform: "translateY(-3px)" },
+        { transform: "translateY(0)" }
       ], {
         duration: 260,
         easing: "ease-out"
