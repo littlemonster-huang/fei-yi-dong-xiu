@@ -159,10 +159,6 @@
         text-rendering: optimizeLegibility;
       }
 
-      .Pixso-paragraph-2_83 {
-        font-weight: 600 !important;
-      }
-
       [class^="Pixso-paragraph-"] {
         max-width: 100% !important;
         white-space: normal !important;
@@ -3429,6 +3425,14 @@ span {
     z-index: 1;
   }
 
+  /* 文字防模糊护栏：transform/filter 会把文字提升为合成层并改为灰阶抗锯齿，导致发糊。
+     因此任何 hover / 动画都不允许作用到文字元素本身，只允许作用于容器或仅改颜色/阴影。 */
+  [class^="Pixso-paragraph-"],
+  [class^="Pixso-text-"] {
+    transform: none !important;
+    filter: none !important;
+  }
+
   .Pixso-frame-2_50,
   .Pixso-frame-2_485,
   .Pixso-frame-2_794,
@@ -3441,7 +3445,7 @@ span {
   .Pixso-frame-2_485 [class^="Pixso-paragraph-2_498"],
   .Pixso-frame-2_794 [class^="Pixso-paragraph-2_807"],
   .Pixso-frame-2_1161 [class^="Pixso-paragraph-2_1174"] {
-    transition: color 0.25s ease, transform 0.25s ease;
+    transition: color 0.25s ease;
     cursor: pointer;
   }
 
@@ -3450,7 +3454,6 @@ span {
   .Pixso-frame-2_794 [class^="Pixso-paragraph-2_807"]:hover,
   .Pixso-frame-2_1161 [class^="Pixso-paragraph-2_1174"]:hover {
     color: var(--c-white);
-    transform: translateY(-1px);
   }
 
   .Pixso-frame-2_76,
@@ -3492,7 +3495,7 @@ span {
   [class^="Pixso-frame-2_1015"],
   [class^="Pixso-frame-2_1027"],
   [class^="Pixso-frame-2_1037"] {
-    transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
   }
 
   [class^="Pixso-frame-2_104"]:hover,
@@ -3513,7 +3516,6 @@ span {
   [class^="Pixso-frame-2_1037"]:hover {
     transform: translateY(-6px);
     box-shadow: 0 22px 40px rgba(35, 28, 23, 0.12);
-    filter: saturate(1.05);
   }
 
 
@@ -3522,7 +3524,7 @@ span {
   .Pixso-frame-2_502,
   .Pixso-frame-2_812,
   .Pixso-frame-2_1180 {
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
   }
 
   .Pixso-frame-2_87:hover,
@@ -3530,7 +3532,6 @@ span {
   .Pixso-frame-2_502:hover,
   .Pixso-frame-2_812:hover,
   .Pixso-frame-2_1180:hover {
-    transform: translateY(-2px);
     box-shadow: 0 14px 28px rgba(178,58,46,0.16);
     border-color: rgba(178,58,46,0.35);
   }

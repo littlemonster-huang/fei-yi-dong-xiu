@@ -1,1 +1,9 @@
-@font-face { font-family: "Source Han Serif CN-SemiBold"; src: local("Source Han Serif CN"), local("Noto Serif SC"), serif; } @font-face { font-family: "Source Han Sans CN-Regular"; src: local("Source Han Sans CN"), local("Microsoft YaHei"), sans-serif; } @font-face { font-family: "Source Han Sans CN-Medium"; src: local("Source Han Sans CN"), local("Microsoft YaHei"), sans-serif; } @font-face { font-family: "Inter-Medium"; src: local("Inter"), sans-serif; }
+/* 思源字体本地映射。
+   ⚠️ 每个 @font-face 必须声明 font-weight：否则 Chrome 把该字体当作 400，
+   页面上任何 500/600 字重都会触发"合成加粗"（faux bold），中文字形会被
+   机械描边一圈，看起来发糊、发虚——这是首页标题发糊的主要根因之一。
+   声明后，浏览器按真实字重匹配，不再做合成加粗。 */
+@font-face { font-family: "Source Han Serif CN-SemiBold"; src: local("Source Han Serif CN SemiBold"), local("Source Han Serif CN"), local("Noto Serif SC"), serif; font-weight: 600; font-display: swap; }
+@font-face { font-family: "Source Han Sans CN-Regular"; src: local("Source Han Sans CN Regular"), local("Source Han Sans CN"), local("Microsoft YaHei"), sans-serif; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Source Han Sans CN-Medium"; src: local("Source Han Sans CN Medium"), local("Source Han Sans CN"), local("Microsoft YaHei"), sans-serif; font-weight: 500; font-display: swap; }
+@font-face { font-family: "Inter-Medium"; src: local("Inter Medium"), local("Inter"), sans-serif; font-weight: 500; font-display: swap; }
